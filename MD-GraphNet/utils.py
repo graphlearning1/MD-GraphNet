@@ -96,12 +96,29 @@ def load_data(config):
     idx_test = test.tolist()
     idx_train = train.tolist()
 
+    idx_all = np.arange(features.shape[0]).tolist()
+    tra_test = np.concatenate((test, train)).tolist()
+    unknow_idx = np.setdiff1d(idx_all, tra_test)
+    np.random.shuffle(unknow_idx)
+
+    idx_val = unknow_idx[:500]
+
     idx_train = torch.LongTensor(idx_train)
     idx_test = torch.LongTensor(idx_test)
+    idx_val = torch.LongTensor(idx_val)
+
 
     label = torch.LongTensor(np.array(l))
+    # idx_val = torch.arange(idx_train.max() + 1, idx_train.max() + 501)
 
-    return features, label, idx_train, idx_test
+    # idx_all = torch.arange(features.shape[0])
+    # uniques, counts = torch.cat((idx_train, idx_test, idx_all), dim=0).unique(return_counts=True)
+    # idx_left = uniques[counts == 1]
+    # index = torch.randint(0, idx_left.shape[0], [500])
+    # idx_dev = idx_left[index]
+    # idx_val = torch.LongTensor(idx_dev)
+
+    return features, label, idx_train, idx_test, idx_val
 
 
 def load_graph(dataset, config):

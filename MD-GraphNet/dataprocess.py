@@ -84,7 +84,7 @@ def construct_graph(dataset, features, topk):
 
 
 def generate_knn(dataset):
-    for topk in range(2, 10):
+    for topk in range(10, 11):
         data = np.loadtxt('../data/' + dataset + '/' + dataset + '.feature', dtype=float)
         print(data)
         construct_graph(dataset, data, topk)
@@ -98,9 +98,9 @@ def generate_knn(dataset):
         f2.close()
 
 ''' process cora/citeseer/pubmed data '''
-process_data('cora')
+# process_data('cora')
 
 '''generate KNN graph'''
 
-generate_knn('cora')
+generate_knn('acm')
 
